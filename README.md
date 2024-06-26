@@ -59,7 +59,7 @@ python build_wiki_index.py --data_path $YOUR_WIKIPEDIA_TSV_PATH --index_name wik
 
 ### 2WikiHop
 ```bash
-python main.py \
+python main_multihop.py \
     --n_shot 10 \
     --retriever_port $YOUR_ELASTIC_SERVICE_PORT \
     --dataset_name twowikihop \
