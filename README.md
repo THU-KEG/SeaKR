@@ -101,4 +101,4 @@ python main_multihop.py \
 
 ## Evaluate
 
-We provide a jupyter notebook `` to do evaluation. You just need to replace the output jsonline file name with your own output.
+We provide a jupyter notebook `eval_multihop.ipynb` to do evaluation. You just need to replace the output jsonline file name with your own output.
