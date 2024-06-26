@@ -1,6 +1,6 @@
 from typing import Union, List, Tuple
 from .utils import LLMOutputWithUncertainty, Step, UncertaintyScore, StepStatus
-from .retriever import BM25, SGPT
+from .retriever import BM25
 from .dataset import Dataset
 import logging
 import re
@@ -17,7 +17,7 @@ import os
 logger = logging.getLogger(__name__)
 
 class MultiHopReasoner:
-    def __init__(self, qid: str, question:str, dataset:Dataset, llm_engine: AsyncLLMEngine, retriever: Union[BM25, SGPT], logger_dir: str=None, eigen_threshold: float=-6.0, prob_threshold: float=0.1) -> None:
+    def __init__(self, qid: str, question:str, dataset:Dataset, llm_engine: AsyncLLMEngine, retriever: BM25, logger_dir: str=None, eigen_threshold: float=-6.0, prob_threshold: float=0.1) -> None:
         self.qid = qid
         self.question = question.replace('.', ' ')
         self.llm_engine = llm_engine
