@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-### Installing Environment
+### Install Environment
 
 ```bash
 conda create -n seakr python=3.10
@@ -18,17 +18,11 @@ cd vllm_uncertainty
 pip install -e .
 ```
 
-### Download dataset
-
-For multihop QA datasets, we use the same files as [dragin](https://github.com/oneal2000/DRAGIN). You can download and unzip it into the `data/multihop_data` folder. We provide a packed multihop data files here: [multihop_data.zip](https://drive.google.com/file/d/1xDqaPa8Kpnb95l7nHpwKWsBQUP9Ck7cn/view?usp=sharing)
-
-For simple QA datasets, we use the same files as [DPR](https://github.com/facebookresearch/DPR). packed files are [singlehop_data.zip](https://drive.google.com/file/d/1T4ZRHZb4C6akZdMHIP1MUgNzSamCBn7N/view?usp=sharing). You can download and unzip it into the `data/singlehop_data` folder. 
-
 ### Prepare Retriever
 
 Followed by [dragin](https://github.com/oneal2000/DRAGIN). Use the Wikipedia dump and elastic search to build the retriever
 
-#### download wikipedia dump
+#### Download Wikipedia dump
 
 ```bash
 mkdir -p data/dpr
@@ -38,7 +32,7 @@ gzip -d psgs_w100.tsv.gz
 popd
 ```
 
-#### run Elasticsearch service
+#### Run Elasticsearch service
 
 ```bash
 cd data
@@ -55,7 +49,10 @@ nohup bin/elasticsearch &  # run Elasticsearch in background
 python build_wiki_index.py --data_path $YOUR_WIKIPEDIA_TSV_PATH --index_name wiki --port $YOUR_ELASTIC_SERVICE_PORT
 ```
 
-## Run SeaKR
+## Run SeaKR on Multihop QA
+
+For multihop QA datasets, we use the same files as [dragin](https://github.com/oneal2000/DRAGIN). You can download and unzip it into the `data/multihop_data` folder. We provide a packed multihop data files here: [multihop_data.zip](https://drive.google.com/file/d/1xDqaPa8Kpnb95l7nHpwKWsBQUP9Ck7cn/view?usp=sharing).
+We use an asynchronous reasoning engine to accelerate multi hop reasoning.
 
 ### 2WikiHop
 ```bash
@@ -99,6 +96,21 @@ python main_multihop.py \
     --max_docs 5
 ```
 
-## Evaluate
+### Evaluate
 
 We provide a jupyter notebook `eval_multihop.ipynb` to do evaluation. You just need to replace the output jsonline file name with your own output.
+
+
+## Run SeaKR on Single QA
+
+The original files are from [DPR](https://github.com/facebookresearch/DPR). We provide a packed version containing top 10 retrieved documents [singlehop_data.zip](https://drive.google.com/file/d/1hn4Om_KkIGJpgG2wJjUu1mpPv9oq8M6G/view?usp=sharing). You can download and unzip it into the `data` folder. 
+
+```bash
+python main_simpleqa.py \
+    --dataset_name tq \
+    --model_name_or_path $YOUR_MODEL_CHECKPOINT_PATH \
+    --selected_intermediate_layer 15 \
+    --output_dir $OUTPUT_DIR
+```
+
+You can evaluate the output in the `eval_singlehop.ipynb` notebook
